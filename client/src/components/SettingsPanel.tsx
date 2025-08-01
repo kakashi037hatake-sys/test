@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { useState } from "react";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { ProcessingSettings } from "@shared/schema";
 
@@ -81,56 +80,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 				outroLength: prev.outroLength - 8, // Keep intro/outro synchronized
 			}));
 		}
-	};
-
-	/**
-	 * Independent outro length increment (not synchronized with intro)
-	 * Allows for asymmetric intro/outro lengths when needed
-	 */
-	const incrementOutroLength = () => {
-		if (settings.outroLength < 64) {
-			setSettings((prev) => ({
-				...prev,
-				outroLength: prev.outroLength + 8,
-			}));
-		}
-	};
-
-	/**
-	 * Independent outro length decrement
-	 * Maintains minimum 8-bar outro for adequate mixing
-	 */
-	const decrementOutroLength = () => {
-		if (settings.outroLength > 8) {
-			setSettings((prev) => ({
-				...prev,
-				outroLength: prev.outroLength - 8,
-			}));
-		}
-	};
-
-	/**
-	 * Toggle vocal preservation setting
-	 * When enabled, maintains vocal clarity during extension process
-	 */
-	const togglePreserveVocals = () => {
-		setSettings((prev) => ({
-			...prev,
-			preserveVocals: !prev.preserveVocals,
-		}));
-	};
-
-	/**
-	 * Handle beat detection algorithm selection
-	 * Supports multiple algorithms for different music types
-	 */
-	const handleBeatDetectionChange = (
-		e: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		setSettings((prev) => ({
-			...prev,
-			beatDetection: e.target.value as "auto" | "librosa" | "madmom",
-		}));
 	};
 
 	/**

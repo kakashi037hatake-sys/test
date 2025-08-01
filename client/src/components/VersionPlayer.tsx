@@ -20,10 +20,6 @@ const VersionPlayer: React.FC<VersionPlayerProps> = ({ track, version }) => {
 		if (audioRef.current) {
 			const audio = audioRef.current;
 
-			const updateTime = () => {
-				setCurrentTime(audio.currentTime);
-			};
-
 			const onLoadedMetadata = () => {
 				setDuration(audio.duration);
 			};

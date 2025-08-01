@@ -42,9 +42,13 @@ import {
 
 // Job priority options
 export enum JobPriority {
+	// eslint-disable-next-line no-unused-vars
 	LOW = 1,
+	// eslint-disable-next-line no-unused-vars
 	NORMAL = 2,
+	// eslint-disable-next-line no-unused-vars
 	HIGH = 3,
+	// eslint-disable-next-line no-unused-vars
 	CRITICAL = 4,
 }
 
@@ -52,7 +56,7 @@ interface EnhancedSettingsPanelProps {
 	/** ID of the track to process, null when no track available */
 	trackId: number | null;
 	/** Callback fired when processing begins successfully */
-	onProcessingStart: (jobId: string) => void;
+	onProcessingStart: (jobId: string) => void; // eslint-disable-line no-unused-vars
 	/** Whether the panel should be disabled (e.g., during processing) */
 	disabled?: boolean;
 	/** Whether to show advanced options */

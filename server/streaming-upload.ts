@@ -22,9 +22,7 @@ import { SecurePathValidator } from "./security-utils.js";
 import {
 	parseAudioAnalysisJSON,
 	createDefaultAudioInfo,
-	type AudioAnalysisResult,
 } from "./json-parsing-utils.js";
-import { promisify } from "util";
 import { PythonShell } from "python-shell";
 
 // Types for streaming upload
@@ -560,7 +558,8 @@ export class AudioFileStreamProcessor {
  * Enhanced error handling for streaming uploads
  */
 export function handleStreamingErrors() {
-	return (error: any, req: Request, res: Response, next: NextFunction) => {
+	// eslint-disable-next-line no-unused-vars
+	return (error: any, req: Request, res: Response, _next: NextFunction) => {
 		const uploadId = req.uploadId;
 
 		if (uploadId) {

@@ -1,9 +1,7 @@
 /** @format */
 
 import React, { useState, useRef } from "react";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { error } from "console";
 
 /**
  * UploadSection Component
@@ -22,7 +20,7 @@ import { error } from "console";
  */
 interface UploadSectionProps {
 	/** Callback function triggered when upload completes successfully with the new track ID */
-	onUploadSuccess: (trackId: number) => void;
+	onUploadSuccess: (trackId: number) => void; // eslint-disable-line no-unused-vars
 }
 
 const UploadSection: React.FC<UploadSectionProps> = ({ onUploadSuccess }) => {
@@ -163,7 +161,8 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onUploadSuccess }) => {
 			// Notify parent component of successful upload with track ID
 			onUploadSuccess(data.id);
 		} catch (error) {
-			console.error("Upload error:", error);
+			// Log error for debugging but don't expose internal details to user
+			console.warn("Upload error:", error);
 
 			// Show error notification with appropriate message
 			toast({

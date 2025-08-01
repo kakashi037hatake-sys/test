@@ -1,6 +1,5 @@
 /** @format */
 
-import cors from "cors";
 import type { CorsOptions } from "cors";
 
 /**
@@ -47,7 +46,7 @@ const getAllowedOrigins = (): string[] => {
 // Dynamic origin validation function
 const corsOrigin = (
 	origin: string | undefined,
-	callback: (err: Error | null, allow?: boolean) => void
+	callback: (err: Error | null, allow?: boolean) => void // eslint-disable-line no-unused-vars
 ) => {
 	const allowedOrigins = getAllowedOrigins();
 
@@ -128,8 +127,8 @@ export const logCorsConfiguration = () => {
 	const nodeEnv = process.env.NODE_ENV || "development";
 	const allowedOrigins = getAllowedOrigins();
 
-	console.log(`🔒 CORS Configuration (${nodeEnv}):`);
-	console.log(`   Allowed Origins: ${allowedOrigins.join(", ")}`);
-	console.log(`   Credentials: ${corsOptions.credentials}`);
-	console.log(`   Max Age: ${corsOptions.maxAge}s`);
+	console.warn(`🔒 CORS Configuration (${nodeEnv}):`);
+	console.warn(`   Allowed Origins: ${allowedOrigins.join(", ")}`);
+	console.warn(`   Credentials: ${corsOptions.credentials}`);
+	console.warn(`   Max Age: ${corsOptions.maxAge}s`);
 };

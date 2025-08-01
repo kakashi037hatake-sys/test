@@ -240,6 +240,8 @@ testCases.forEach((testCase) => {
 		validateDatabaseUrl(testCase.url);
 		result = true;
 	} catch (error) {
+		// Error expected for invalid URLs
+		console.debug("Expected error for invalid URL:", error);
 		result = false;
 	}
 

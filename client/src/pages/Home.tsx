@@ -7,6 +7,7 @@ import UploadSection from "@/components/UploadSection";
 import SettingsPanel from "@/components/SettingsPanel";
 import ProcessingInfo from "@/components/ProcessingInfo";
 import TrackPreview from "@/components/TrackPreview";
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import CompletedMixCard from "@/components/CompletedMixCard";
 import { AudioTrack } from "@shared/schema";
 
@@ -122,16 +123,6 @@ const Home: React.FC = () => {
 		setIsProcessing(false);
 	};
 
-	const handlePreview = () => {
-		// Switch to the extended tab in TrackPreview
-		// This is handled through props
-	};
-
-	const handleAdjust = () => {
-		// Allow user to adjust settings and reprocess
-		setIsProcessed(false);
-	};
-
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
@@ -158,6 +149,7 @@ const Home: React.FC = () => {
 											description: "All tracks have been removed successfully.",
 										});
 									} catch (error) {
+										console.error("Failed to clear tracks:", error);
 										toast({
 											title: "Error",
 											description: "Failed to clear tracks.",

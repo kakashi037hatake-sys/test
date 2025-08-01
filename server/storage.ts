@@ -11,7 +11,7 @@ import {
 	type InsertAudioTrack,
 	type UpdateAudioTrack,
 } from "@shared/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 /**
  * Validates DATABASE_URL format to prevent connection string injection attacks
@@ -71,6 +71,7 @@ const pool = new Pool({
 
 const db = drizzle(pool);
 
+/* eslint-disable no-unused-vars */
 export interface IStorage {
 	getUser(id: number): Promise<User | undefined>;
 	getUserByUsername(username: string): Promise<User | undefined>;
@@ -85,6 +86,7 @@ export interface IStorage {
 	deleteAudioTrack(id: number): Promise<void>;
 	deleteAllUserTracks(userId: number): Promise<void>;
 }
+/* eslint-enable no-unused-vars */
 
 export class PostgresStorage implements IStorage {
 	async getUser(id: number): Promise<User | undefined> {

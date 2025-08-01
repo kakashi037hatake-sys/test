@@ -7,6 +7,8 @@
  * @format
  */
 
+/* eslint-disable no-undef */
+
 // Test function to validate PostgreSQL URLs (copy of the enhanced function)
 function validateDatabaseUrl(url) {
 	try {

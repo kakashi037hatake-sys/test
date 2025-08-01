@@ -20,7 +20,6 @@ import { storage } from "./storage";
 import { processingSettingsSchema } from "@shared/schema";
 import { InputSanitizer } from "./security-utils.js";
 import path from "path";
-import fs from "fs";
 
 /**
  * Enhanced route handlers with job queue integration

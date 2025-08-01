@@ -1,5 +1,7 @@
 /** @format */
 
+/* eslint-disable no-undef */
+
 // Test database connection
 import { Pool } from "pg";
 import dotenv from "dotenv";

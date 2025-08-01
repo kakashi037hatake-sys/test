@@ -43,7 +43,7 @@ const normalizedResultDir = path.resolve(process.cwd(), "results");
  */
 router.post("/upload/init", async (req: Request, res: Response) => {
 	try {
-		const { filename, fileSize, contentType } = req.body;
+		const { filename, fileSize } = req.body;
 
 		// Validate input
 		if (!filename || !fileSize) {
@@ -326,7 +326,7 @@ router.get("/upload/active", (req: Request, res: Response) => {
 		const activeUploads: any[] = [];
 
 		// Get all active uploads (in production, this should be paginated)
-		uploadProgress.forEach((progress, uploadId) => {
+		uploadProgress.forEach((progress) => {
 			if (progress.status === "uploading" || progress.status === "processing") {
 				activeUploads.push({
 					uploadId: progress.uploadId,
@@ -363,7 +363,6 @@ router.get("/health", async (req: Request, res: Response) => {
 	try {
 		const uploadsDir = normalizedUploadsDir;
 		const tempDir = path.join(uploadsDir, "temp");
-		const audioDir = path.join(uploadsDir, "audio");
 
 		// Check directory accessibility
 		await fs.access(uploadsDir);

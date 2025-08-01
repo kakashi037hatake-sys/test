@@ -85,9 +85,9 @@ interface JobQueueMonitorProps {
 	/** Whether to show admin controls */
 	isAdmin?: boolean;
 	/** Called when a job completes successfully */
-	onJobComplete?: (jobId: string, trackId: number) => void;
+	onJobComplete?: (jobId: string, trackId: number) => void; // eslint-disable-line no-unused-vars
 	/** Called when a job fails */
-	onJobFailed?: (jobId: string, trackId: number, error: string) => void;
+	onJobFailed?: (jobId: string, trackId: number, error: string) => void; // eslint-disable-line no-unused-vars
 }
 
 export const JobQueueMonitor: React.FC<JobQueueMonitorProps> = ({

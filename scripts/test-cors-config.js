@@ -7,11 +7,14 @@
  * @format
  */
 
+/* eslint-disable no-undef */
+
 import fetch from "node-fetch";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-unused-vars
 const __dirname = dirname(__filename);
 
 // Utility function to sanitize user input for logging
@@ -20,9 +23,12 @@ function sanitizeForLog(input) {
 		input = String(input);
 	}
 	// Remove newlines, carriage returns, and control characters that could be used for log injection
-	return input
-		.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-		.substring(0, 1000);
+	return (
+		input
+			// eslint-disable-next-line no-control-regex
+			.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+			.substring(0, 1000)
+	);
 }
 
 const BASE_URL = "http://localhost:5000";
@@ -155,6 +161,7 @@ async function testSecurityHeaders() {
 		console.log("   Security Headers:", securityHeaders);
 
 		const missingHeaders = Object.entries(securityHeaders)
+			// eslint-disable-next-line no-unused-vars
 			.filter(([key, value]) => !value)
 			.map(([key]) => key);
 

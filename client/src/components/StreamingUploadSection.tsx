@@ -14,6 +14,7 @@
  */
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
+import type { AudioTrack } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -23,10 +24,9 @@ import { Button } from "@/components/ui/button";
 
 interface StreamingUploadSectionProps {
 	/** Callback function triggered when upload completes successfully with the new track */
- import type { AudioTrack } from "@shared/schema";
- onUploadSuccess: (track: AudioTrack) => void;
+	onUploadSuccess: (track: AudioTrack) => void; // eslint-disable-line no-unused-vars
 	/** Optional callback for upload errors */
-	onUploadError?: (error: string) => void;
+	onUploadError?: (error: string) => void; // eslint-disable-line no-unused-vars
 	/** Maximum file size in bytes (default: 500MB) */
 	maxFileSize?: number;
 	/** Allowed file formats */
@@ -509,10 +509,10 @@ export const StreamingUploadSection: React.FC<StreamingUploadSectionProps> = ({
 						className={`
 			  border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
 			  ${
-								isDragActive
-									? "border-primary bg-primary/5"
-									: "border-muted-foreground/25 hover:border-primary/50"
-							}
+					isDragActive
+						? "border-primary bg-primary/5"
+						: "border-muted-foreground/25 hover:border-primary/50"
+				}
 			  ${isUploading ? "pointer-events-none opacity-50" : ""}
 			`}
 						onClick={handleUploadClick}

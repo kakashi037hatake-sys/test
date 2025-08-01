@@ -18,15 +18,19 @@ function sanitizeForLog(data: any): string {
 	const MAX_LOG_LENGTH = 1000;
 	if (typeof data === "string") {
 		// Remove format specifiers and control characters that could manipulate log output
-		return data
-			.replace(/%[sdifj%]/g, "") // Remove format specifiers
-			.replace(/[\x00-\x1f\x7f-\x9f]/g, "") // Remove control characters
-			.slice(0, MAX_LOG_LENGTH); // Limit length
+		return (
+			data
+				.replace(/%[sdifj%]/g, "") // Remove format specifiers
+				// eslint-disable-next-line no-control-regex
+				.replace(/[\x00-\x1f\x7f-\x9f]/g, "") // Remove control characters
+				.slice(0, MAX_LOG_LENGTH)
+		); // Limit length
 	}
 	return String(data).slice(0, MAX_LOG_LENGTH);
 }
 
 // Job priority levels
+/* eslint-disable no-unused-vars */
 export enum JobPriority {
 	LOW = 1,
 	NORMAL = 2,
@@ -43,6 +47,7 @@ export enum JobStatus {
 	DELAYED = "delayed",
 	PAUSED = "paused",
 }
+/* eslint-enable no-unused-vars */
 
 // Job data interfaces
 export interface AudioProcessingJobData {
@@ -77,7 +82,7 @@ class SimpleJobQueueManager {
 	private socketIo?: any;
 
 	constructor() {
-		console.log(
+		console.warn(
 			"📝 Job Queue running in direct processing mode (Redis not available)"
 		);
 	}
@@ -90,7 +95,7 @@ class SimpleJobQueueManager {
 	 * Add audio processing job (direct processing)
 	 */
 	async addAudioProcessingJob(data: AudioProcessingJobData): Promise<string> {
-		console.log(
+		console.warn(
 			`🎵 Starting direct audio processing for track ${data.trackId}`
 		);
 
@@ -145,7 +150,7 @@ class SimpleJobQueueManager {
 		if (job && job.status === JobStatus.ACTIVE) {
 			job.status = JobStatus.FAILED;
 			job.error = "Cancelled by user";
-			console.log("🚫 Job marked as cancelled:", sanitizeForLog(jobId));
+			console.warn("🚫 Job marked as cancelled:", sanitizeForLog(jobId));
 			return true;
 		}
 		return false;
@@ -218,11 +223,7 @@ class SimpleJobQueueManager {
 				: path.join(__dirname, "audioProcessor.py");
 
 			// Run Python processing
-			const result = await this.runPythonScript(
-				finalScriptPath,
-				data,
-				updateProgress
-			);
+			await this.runPythonScript(finalScriptPath, data, updateProgress);
 
 			// Step 4: Validation
 			updateProgress({
@@ -263,7 +264,7 @@ class SimpleJobQueueManager {
 				job.status = JobStatus.COMPLETED;
 			}
 
-			console.log(
+			console.warn(
 				"✅ Direct processing completed for track",
 				sanitizeForLog(data.trackId)
 			);
@@ -294,6 +295,7 @@ class SimpleJobQueueManager {
 	private async runPythonScript(
 		scriptPath: string,
 		data: AudioProcessingJobData,
+		// eslint-disable-next-line no-unused-vars
 		updateProgress: (progress: Partial<JobProgress>) => void
 	): Promise<any> {
 		return new Promise((resolve, reject) => {
@@ -307,7 +309,7 @@ class SimpleJobQueueManager {
 				data.settings.beatDetection || "auto",
 			];
 
-			console.log("🐍 Running Python script:", args.join(" "));
+			console.warn("🐍 Running Python script:", args.join(" "));
 
 			const pythonProcess = spawn("python", args, {
 				cwd: __dirname,
@@ -337,7 +339,7 @@ class SimpleJobQueueManager {
 
 			pythonProcess.on("close", (code) => {
 				if (code === 0) {
-					console.log("✅ Python script completed successfully");
+					console.warn("✅ Python script completed successfully");
 					resolve({ stdout, stderr });
 				} else {
 					console.error("❌ Python script failed with code:", code);
@@ -438,7 +440,7 @@ class SimpleJobQueueManager {
 		}
 
 		if (cleaned > 0) {
-			console.log(`🧹 Cleaned up ${cleaned} old jobs from memory`);
+			console.warn(`🧹 Cleaned up ${cleaned} old jobs from memory`);
 		}
 	}
 
@@ -446,10 +448,11 @@ class SimpleJobQueueManager {
 	 * Graceful shutdown
 	 */
 	async shutdown() {
-		console.log("🔄 Shutting down job queue manager...");
+		console.warn("🔄 Shutting down job queue manager...");
 
 		// Cancel active jobs
 		for (const jobEntry of Array.from(this.activeJobs.entries())) {
+			// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 			const [jobId, job] = jobEntry;
 			if (job.status === JobStatus.ACTIVE) {
 				job.status = JobStatus.FAILED;
@@ -457,17 +460,17 @@ class SimpleJobQueueManager {
 			}
 		}
 
-		console.log("✅ Job queue manager shutdown completed");
+		console.warn("✅ Job queue manager shutdown completed");
 	}
 
 	// Placeholder methods for compatibility
 	async addAudioAnalysisJob(data: any): Promise<string> {
-		console.log("📊 Audio analysis not available in fallback mode");
+		console.warn("📊 Audio analysis not available in fallback mode");
 		return data.jobId;
 	}
 
 	async addFileCleanupJob(data: any): Promise<string> {
-		console.log("🧹 File cleanup will be handled manually in fallback mode");
+		console.warn("🧹 File cleanup will be handled manually in fallback mode");
 		return data.jobId;
 	}
 
@@ -477,7 +480,7 @@ class SimpleJobQueueManager {
 		type: string,
 		message: string
 	): Promise<string> {
-		console.log(
+		console.warn(
 			"📢 Notification",
 			sanitizeForLog(type),
 			sanitizeForLog(message)
@@ -486,11 +489,11 @@ class SimpleJobQueueManager {
 	}
 
 	async pauseAllQueues(): Promise<void> {
-		console.log("⏸️ Queue pause not available in fallback mode");
+		console.warn("⏸️ Queue pause not available in fallback mode");
 	}
 
 	async resumeAllQueues(): Promise<void> {
-		console.log("▶️ Queue resume not available in fallback mode");
+		console.warn("▶️ Queue resume not available in fallback mode");
 	}
 }
 

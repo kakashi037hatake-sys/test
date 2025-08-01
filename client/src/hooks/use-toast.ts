@@ -14,6 +14,7 @@ type ToasterToast = ToastProps & {
 	action?: ToastActionElement;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actionTypes = {
 	ADD_TOAST: "ADD_TOAST",
 	UPDATE_TOAST: "UPDATE_TOAST",
@@ -128,6 +129,7 @@ export const reducer = (state: State, action: Action): State => {
 	}
 };
 
+// eslint-disable-next-line no-unused-vars
 const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };

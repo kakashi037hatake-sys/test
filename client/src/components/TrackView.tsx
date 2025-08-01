@@ -20,7 +20,7 @@ const hasSettings = (
 		typeof settings === "object" &&
 		settings !== null &&
 		"introLength" in settings &&
-		typeof (settings as any).introLength === "number"
+		typeof (settings as { introLength: unknown }).introLength === "number"
 	);
 };
 
@@ -166,10 +166,6 @@ const TrackView: React.FC<TrackViewProps> = ({ track, type, version }) => {
 	useEffect(() => {
 		if (audioRef.current) {
 			const audio = audioRef.current;
-
-			const updateTime = () => {
-				setCurrentTime(audio.currentTime);
-			};
 
 			const onLoadedMetadata = () => {
 				setDuration(audio.duration);

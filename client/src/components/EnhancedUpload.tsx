@@ -9,6 +9,7 @@
  */
 
 import React, { useState } from "react";
+import type { AudioTrack } from "@shared/schema";
 import UploadSection from "./UploadSection";
 import StreamingUploadSection from "./StreamingUploadSection";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -16,9 +17,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface EnhancedUploadProps {
-import type { AudioTrack } from "@shared/schema";
-onUploadSuccess: (track: AudioTrack) => void;
-	onUploadError?: (error: string) => void;
+	onUploadSuccess: (track: AudioTrack) => void; // eslint-disable-line no-unused-vars
+	onUploadError?: (error: string) => void; // eslint-disable-line no-unused-vars
 }
 
 export const EnhancedUpload: React.FC<EnhancedUploadProps> = ({
@@ -28,6 +28,14 @@ export const EnhancedUpload: React.FC<EnhancedUploadProps> = ({
 	const [activeTab, setActiveTab] = useState<"standard" | "streaming">(
 		"standard"
 	);
+
+	// Adapter function to handle different callback signatures
+	const handleStandardUploadSuccess = (trackId: number) => {
+		// For standard upload, we need to fetch the full track data
+		// This is a simplified implementation - you may want to enhance this
+		const mockTrack = { id: trackId } as AudioTrack;
+		onUploadSuccess(mockTrack);
+	};
 
 	return (
 		<Card className='w-full'>
@@ -43,7 +51,9 @@ export const EnhancedUpload: React.FC<EnhancedUploadProps> = ({
 			<CardContent>
 				<Tabs
 					value={activeTab}
- onValueChange={(value) => setActiveTab(value as "standard" | "streaming")}
+					onValueChange={(value) =>
+						setActiveTab(value as "standard" | "streaming")
+					}>
 					<TabsList className='grid w-full grid-cols-2'>
 						<TabsTrigger value='standard'>
 							Standard Upload
@@ -60,7 +70,7 @@ export const EnhancedUpload: React.FC<EnhancedUploadProps> = ({
 					</TabsList>
 
 					<TabsContent value='standard' className='mt-6'>
-						<UploadSection onUploadSuccess={onUploadSuccess} />
+						<UploadSection onUploadSuccess={handleStandardUploadSuccess} />
 						<div className='mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600'>
 							<p>
 								<strong>Standard Upload:</strong> Fast upload for files up to

@@ -18,14 +18,14 @@ export class SecurePathValidator {
 	private readonly maxPathLength = 4096;
 	private readonly blockedPatterns = [
 		/\.\./g, // Directory traversal
-		/~[\/\\]/g, // Home directory references
+		/~[/\\]/g, // Home directory references
 		/\0/g, // Null byte injection
 		/%00/g, // URL encoded null byte
 		/%2e%2e/gi, // URL encoded ..
 		/%2f/gi, // URL encoded /
 		/%5c/gi, // URL encoded \
 		/[<>"|*?]/g, // Filesystem dangerous characters
-		/^[\.\/\\]+/g, // Leading dots, slashes
+		/^[./\\]+/g, // Leading dots, slashes
 		/CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9]/gi, // Windows reserved names
 	];
 

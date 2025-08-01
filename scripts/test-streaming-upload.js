@@ -10,9 +10,9 @@
  * @format
  */
 
+/* eslint-disable no-undef */
+
 import fetch from "node-fetch";
-import fs from "fs";
-import path from "path";
 
 // Utility function to sanitize user input for logging
 function sanitizeForLog(input) {
@@ -20,9 +20,12 @@ function sanitizeForLog(input) {
 		input = String(input);
 	}
 	// Remove newlines, carriage returns, and control characters that could be used for log injection
-	return input
-		.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-		.substring(0, 1000);
+	return (
+		input
+			// eslint-disable-next-line no-control-regex
+			.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+			.substring(0, 1000)
+	);
 }
 
 const BASE_URL = "http://localhost:5000";

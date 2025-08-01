@@ -25,9 +25,12 @@ function sanitizeForLog(input: any): string {
 		input = String(input);
 	}
 	// Remove newlines, carriage returns, and control characters that could be used for log injection
-	return input
-		.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-		.substring(0, 1000);
+	return (
+		input
+			// eslint-disable-next-line no-control-regex
+			.replace(/[\r\n\t\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+			.substring(0, 1000)
+	);
 }
 
 /**

@@ -3,23 +3,15 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import {
-	processingSettingsSchema,
-	updateAudioTrackSchema,
-} from "@shared/schema";
+import { processingSettingsSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { PythonShell } from "python-shell";
 import streamingRoutes from "./streaming-routes.js";
-import {
-	SecurePathValidator,
-	InputSanitizer,
-	createSecurityMiddleware,
-} from "./security-utils.js";
+import { SecurePathValidator, InputSanitizer } from "./security-utils.js";
 import {
 	parseAudioAnalysisJSON,
-	createDefaultAudioInfo,
 	validateAudioAnalysisResult,
 } from "./json-parsing-utils.js";
 
@@ -32,7 +24,6 @@ const resultDir =
 // Initialize security components
 const allowedDirectories = [uploadsDir, resultDir];
 const secureValidator = new SecurePathValidator(allowedDirectories);
-const securityMiddleware = createSecurityMiddleware(secureValidator);
 
 // Security: Validate and canonicalize directory paths to prevent malicious paths
 let normalizedUploadsDir: string;
@@ -293,7 +284,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 						// Only delete files that are confirmed to be within the uploads directory
 						try {
 							fs.unlinkSync(normalizedFilePath);
-							console.log(
+							console.warn(
 								"🗑️ Cleaned up invalid uploaded file:",
 								normalizedFilePath
 							);
@@ -347,7 +338,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 										bpm: audioInfo.bpm || null,
 										key: audioInfo.key || null,
 									});
-									console.log("Audio track metadata updated successfully", {
+									console.warn("Audio track metadata updated successfully", {
 										trackId: track.id,
 									});
 								} else {
@@ -567,7 +558,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 			// Start processing in background
 			PythonShell.run("audioProcessor.py", options)
 				.then(async (results) => {
-					console.log("Processing complete:", results);
+					console.warn("Processing complete:", results);
 
 					// Get audio info of the processed file
 					const audioInfoOptions = {
@@ -590,7 +581,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 								if (parseResult.success && parseResult.data) {
 									const audioInfo = parseResult.data;
-									console.log("Extended audio info:", audioInfo);
+									console.warn("Extended audio info:", audioInfo);
 									extendedDuration = audioInfo.duration || null;
 								} else {
 									console.error(
@@ -614,7 +605,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 							const currentDurations =
 								(track.extendedDurations as number[]) || [];
 							const extendedPaths = [...currentPaths, outputPath];
-							console.log("extendedPaths:", extendedPaths);
+							console.warn("extendedPaths:", extendedPaths);
 
 							return storage.updateAudioTrack(id, {
 								status: "completed",

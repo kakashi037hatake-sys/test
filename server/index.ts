@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 	const server = await registerRoutes(app);
 
 	// Simple setup for development mode (no Redis/WebSocket requirements)
-	console.log("🚀 Starting server in simple mode (no Redis required)");
+	console.warn("🚀 Starting server in simple mode (no Redis required)");
 
 	// Add basic job queue routes
 	app.get("/api/health/job-queue", async (req, res) => {
@@ -109,7 +109,7 @@ app.use((req, res, next) => {
 			const jobId = `job-${randomBytes}`;
 
 			// Get track info (you'll need to implement this based on your storage)
-			const track = { id: trackId }; // Placeholder
+			// const track = { id: trackId }; // Placeholder - not currently used
 
 			const jobData = {
 				jobId,
@@ -165,6 +165,7 @@ app.use((req, res, next) => {
 		}
 	});
 
+	// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 	app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 		const status = (err as any).status || (err as any).statusCode || 500;
 		const message = err.message || "Internal Server Error";

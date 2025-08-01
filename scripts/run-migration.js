@@ -5,6 +5,8 @@
  * @format
  */
 
+/* eslint-disable no-undef */
+
 import { Pool } from "pg";
 import fs from "fs";
 import path from "path";

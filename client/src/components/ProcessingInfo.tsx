@@ -141,8 +141,6 @@ const ProcessingInfo: React.FC<ProcessingInfoProps> = ({
 
 				// Handle active processing states (processing or regenerate)
 				if (data.status === "processing" || data.status === "regenerate") {
-					const isRegeneration = data.status === "regenerate";
-
 					// Calculate simulated progress based on polling cycles
 					// Target 80% progress through polling, reserve 20% for completion
 					const progressIncrement = 100 / (maxChecks * 0.8);
